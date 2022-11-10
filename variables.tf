@@ -13,3 +13,6 @@ variable "instance_name" {
   default     = "Provisioned by Terraform"
 }
 
+variable "subnet_name" {
+  default     = "WW_DEVOPS_SubnetB"
+}
