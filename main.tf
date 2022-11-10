@@ -18,21 +18,20 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
-data "aws_subnets" "subnets" {
-}
 
-data "aws_subnet" "subnet" {
-  for_each = toset(data.aws_subnets.subnets.ids)
-  id       = each.value
+data "aws_subnet" "selected" {
+  filter {
+    name   = "tag:Name"
+    values = [var.subnet_name]
+  }
 }
 
 
 resource "aws_instance" "ubuntu" {
-  count         = length(data.aws_subnets.subnets.ids)
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
   associate_public_ip_address = false
-  subnet_id                   = data.aws_subnets.subnets.ids[count.index]
+  subnet_id                   = data.aws_subnet_selected.id
 
   tags = {
     Name = var.instance_name
