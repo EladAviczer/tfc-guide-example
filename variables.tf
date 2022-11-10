@@ -13,6 +13,6 @@ variable "instance_name" {
   default     = "Provisioned by Terraform"
 }
 
-variable "subnet_name" {
-  default     = "WW_DEVOPS_SubnetB"
+variable "subnet_id" {
+  default     = "TFC will change the secret var!"
 }
