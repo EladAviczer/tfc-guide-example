@@ -31,7 +31,7 @@ resource "aws_instance" "ubuntu" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
   associate_public_ip_address = false
-  subnet_id                   = data.aws_subnet_selected.*.id
+  subnet_id                   = data.aws_subnet.selected.*.id
 
   tags = {
     Name = var.instance_name
