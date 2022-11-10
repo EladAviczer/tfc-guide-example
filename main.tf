@@ -18,9 +18,16 @@ data "aws_ami" "ubuntu" {
   owners = ["099720109477"] # Canonical
 }
 
+data "aws_subnets" "subnets" {
+}
+
+
 resource "aws_instance" "ubuntu" {
+  count         = length(data.aws_subnets.subnets.ids)
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
+  associate_public_ip_address = false
+  subnet_id                   = data.aws_subnets.subnets.ids[count.index]
 
   tags = {
     Name = var.instance_name
