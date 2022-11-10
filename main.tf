@@ -19,19 +19,12 @@ data "aws_ami" "ubuntu" {
 }
 
 
-data "aws_subnet" "selected" {
-  filter {
-    name   = "tag:Name"
-    values = [var.subnet_name]
-  }
-}
-
 
 resource "aws_instance" "ubuntu" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
   associate_public_ip_address = false
-  subnet_id                   = data.aws_subnet.selected.*.id
+  subnet_id                   = var.vpc_id
 
   tags = {
     Name = var.instance_name
