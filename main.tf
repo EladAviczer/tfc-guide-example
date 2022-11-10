@@ -21,6 +21,11 @@ data "aws_ami" "ubuntu" {
 data "aws_subnets" "subnets" {
 }
 
+data "aws_subnet" "subnet" {
+  for_each = toset(data.aws_subnets.subnets.ids)
+  id       = each.value
+}
+
 
 resource "aws_instance" "ubuntu" {
   count         = length(data.aws_subnets.subnets.ids)
